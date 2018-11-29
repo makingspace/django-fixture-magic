@@ -58,6 +58,12 @@ class Command(BaseCommand):
                             action='store_false', dest='follow_fk',
                             default=True,
                             help='does not serialize Foriegn Keys related to object')
+        parser.add_argument('--indent',
+                            dest='indent',
+                            default=4,
+                            type=int,
+                            help='Specifies the indent level to use when pretty-printing '
+                            'output.')
 
         parser.add_argument(
             '--format', default='json', dest='format',
@@ -140,7 +146,7 @@ class Command(BaseCommand):
 
         self.stdout.write(serialize(options.get('format', 'json'),
                                     [o for o in serialize_me if o is not None],
-                                    indent=4,
+                                    indent=options.get('indent', 4),
                                     use_natural_foreign_keys=natural_foreign,
                                     use_natural_primary_keys=natural_primary))
 
