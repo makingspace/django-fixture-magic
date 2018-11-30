@@ -6,21 +6,20 @@ except ImportError:
 from django.core.management.base import BaseCommand
 
 
-def write_json(output):
-    try:
-        # check our json import supports sorting keys
-        json.dumps([1], sort_keys=True)
-    except TypeError:
-        self.stdout.write(json.dumps(output, indent=4))
-    else:
-        self.stdout.write(json.dumps(output, sort_keys=True, indent=4))
-
-
 class Command(BaseCommand):
     help = 'Merge a series of fixtures and remove duplicates.'
 
     def add_arguments(self, parser):
         parser.add_argument('args', metavar='files', nargs='+', help='One or more fixture.')
+
+    def write_json(self, output):
+        try:
+            # check our json import supports sorting keys
+            json.dumps([1], sort_keys=True)
+        except TypeError:
+            self.stdout.write(json.dumps(output, indent=4))
+        else:
+            self.stdout.write(json.dumps(output, sort_keys=True, indent=4))
 
     def handle(self, *files, **options):
         """
@@ -39,4 +38,4 @@ class Command(BaseCommand):
                     seen[key] = 1
                     output.append(obj)
 
-        write_json(output)
+        self.write_json(output)
