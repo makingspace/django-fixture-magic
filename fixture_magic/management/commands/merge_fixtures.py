@@ -1,5 +1,3 @@
-from __future__ import print_function
-
 try:
     import json
 except ImportError:
@@ -13,9 +11,9 @@ def write_json(output):
         # check our json import supports sorting keys
         json.dumps([1], sort_keys=True)
     except TypeError:
-        print(json.dumps(output, indent=4))
+        self.stdout.write(json.dumps(output, indent=4))
     else:
-        print(json.dumps(output, sort_keys=True, indent=4))
+        self.stdout.write(json.dumps(output, sort_keys=True, indent=4))
 
 
 class Command(BaseCommand):
